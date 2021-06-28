@@ -95,15 +95,16 @@ class GameScreen : ManagedScreenAdapter() {
                 "players" -> {
                     for (mapObject in mapLayer.objects) {
                         if (mapObject.isVisible && mapObject is EllipseMapObject) {
+                            val radius = (mapObject.ellipse.width + mapObject.ellipse.height) / 4
                             val shape = CircleShape().apply {
-                                this.radius = (mapObject.ellipse.width + mapObject.ellipse.height) / 4
+                                this.radius = radius
                             }
                             val body = world.createBody(
                                 BodyDef().apply {
                                     type = BodyDef.BodyType.DynamicBody
                                     position.set(
-                                        mapObject.ellipse.x + shape.radius,
-                                        mapObject.ellipse.y + shape.radius
+                                        mapObject.ellipse.x + radius,
+                                        mapObject.ellipse.y + radius
                                     )
                                     linearDamping = 0.1f
                                     angularDamping = 0.1f
@@ -117,7 +118,7 @@ class GameScreen : ManagedScreenAdapter() {
                             }
                             shape.dispose()
                             body.userData = Sprite(game.assets.get(Assets.BALL)).apply {
-                                val size = shape.radius * 2
+                                val size = radius * 2
                                 setSize(size, size)
                                 setOriginCenter()
                             }
@@ -128,14 +129,15 @@ class GameScreen : ManagedScreenAdapter() {
                 "enemies" -> {
                     for (mapObject in mapLayer.objects) {
                         if (mapObject.isVisible && mapObject is EllipseMapObject) {
+                            val radius = (mapObject.ellipse.width + mapObject.ellipse.height) / 4
                             val shape = CircleShape().apply {
-                                this.radius = (mapObject.ellipse.width + mapObject.ellipse.height) / 4
+                                this.radius = radius
                             }
                             val body = world.createBody(
                                 BodyDef().apply {
                                     position.set(
-                                        mapObject.ellipse.x + shape.radius,
-                                        mapObject.ellipse.y + shape.radius
+                                        mapObject.ellipse.x + radius,
+                                        mapObject.ellipse.y + radius
                                     )
                                 }).apply {
                                 createFixture(FixtureDef().apply {
@@ -144,7 +146,7 @@ class GameScreen : ManagedScreenAdapter() {
                             }
                             shape.dispose()
                             body.userData = Sprite(game.assets.get(Assets.ENEMY)).apply {
-                                val size = shape.radius * 2
+                                val size = radius * 2
                                 setSize(size, size)
                                 setOriginCenter()
                             }
@@ -154,14 +156,15 @@ class GameScreen : ManagedScreenAdapter() {
                 "goals" -> {
                     for (mapObject in mapLayer.objects) {
                         if (mapObject.isVisible && mapObject is EllipseMapObject) {
+                            val radius = (mapObject.ellipse.width + mapObject.ellipse.height) / 4
                             val shape = CircleShape().apply {
-                                this.radius = (mapObject.ellipse.width + mapObject.ellipse.height) / 4
+                                this.radius = radius
                             }
                             val body = world.createBody(
                                 BodyDef().apply {
                                     position.set(
-                                        mapObject.ellipse.x + shape.radius,
-                                        mapObject.ellipse.y + shape.radius
+                                        mapObject.ellipse.x + radius,
+                                        mapObject.ellipse.y + radius
                                     )
                                 }).apply {
                                 createFixture(FixtureDef().apply {
@@ -170,7 +173,7 @@ class GameScreen : ManagedScreenAdapter() {
                             }
                             shape.dispose()
                             body.userData = Sprite(game.assets.get(Assets.GOAL)).apply {
-                                val size = shape.radius * 2
+                                val size = radius * 2
                                 setSize(size, size)
                                 setOriginCenter()
                             }
@@ -220,13 +223,6 @@ class GameScreen : ManagedScreenAdapter() {
                 val position = body.position
                 sprite.setOriginBasedPosition(position.x, position.y)
             }
-        }
-        val left = Gdx.input.isKeyPressed(Input.Keys.LEFT)
-        val right = Gdx.input.isKeyPressed(Input.Keys.RIGHT)
-        if (left && !right || !left && right) {
-            val rotation = delta * (if (left) 1 else -1) * (if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) 50f else 30f)
-            this.rotation -= rotation
-            camera.rotate(rotation)
         }
     }
 
