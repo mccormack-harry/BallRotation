@@ -28,6 +28,7 @@ run {
 jar {
 // sets the name of the .jar file this produces to the name of the game or app.
 	archiveBaseName.set(appName)
+	archiveAppendix.set("lwjgl3")
 // the duplicatesStrategy matters starting in Gradle 7.0; this setting works.
 	duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 	dependsOn configurations.runtimeClasspath

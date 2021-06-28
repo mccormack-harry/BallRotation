@@ -29,7 +29,7 @@ configure(subprojects - project(':android')) {
 }
 
 subprojects {
-	version = 'SNAPSHOT'
+	version = '0.2'
 	ext.appName = 'BallRotation'
 	repositories {
 		mavenLocal()
