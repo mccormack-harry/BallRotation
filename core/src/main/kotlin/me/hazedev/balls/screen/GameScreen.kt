@@ -62,6 +62,7 @@ class GameScreen : ManagedScreenAdapter() {
 
         world = World(Vector2(), false).apply { setContactListener(ContactListener()) }
         for (mapLayer in map.layers) {
+            // map is split into object layers depending on entity type
             when (mapLayer.name) {
                 "walls" -> {
                     for (mapObject in mapLayer.objects) {
@@ -182,6 +183,7 @@ class GameScreen : ManagedScreenAdapter() {
     }
 
     private fun update(delta: Float) {
+        // Check if game over
         if (reachedGoal.size > 0) {
             players -= reachedGoal.size
             reachedGoal.forEach(world::destroyBody)
@@ -197,6 +199,17 @@ class GameScreen : ManagedScreenAdapter() {
                 game.screenManager.pushScreen(MainMenuScreen::class.qualifiedName, BlendingTransition::class.qualifiedName)
             }
         }
+
+        // Input
+        val left = Gdx.input.isKeyPressed(Input.Keys.LEFT)
+        val right = Gdx.input.isKeyPressed(Input.Keys.RIGHT)
+        if (left && !right || !left && right) {
+            val rotation = delta * (if (left) 1 else -1) * (if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) 50f else 30f)
+            this.rotation -= rotation
+            camera.rotate(rotation)
+        }
+
+        // Physics
         world.gravity = gravity.set(0f, -30f).rotateDeg(rotation)
         world.step(delta, 6, 2)
         world.getBodies(bodies)
