@@ -61,7 +61,6 @@ class MainMenuScreen : ManagedScreenAdapter() {
     override fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
         val scale = min(width / 1920f, height / 1080f)
-        println(scale)
         title.setFontScale(2 * scale)
         subtitle.setFontScale(scale)
     }
